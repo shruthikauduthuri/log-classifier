@@ -27,6 +27,7 @@ yarn-debug.log*
 yarn-error.log*
 frontend/dist/
 frontend/coverage/
+frontend/.vite/
 
 # Editor
 .idea/
@@ -36,3 +37,4 @@ frontend/coverage/
 # Local artifacts
 *.log
 tmp/
+.vercel/
