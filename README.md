@@ -91,6 +91,29 @@ Frontend: `http://localhost:5173`
 
 Backend health: `http://localhost:5001/api/health`
 
+## Vercel Deployment
+
+This repository includes a production Vercel configuration that keeps the PRD's React + Flask split:
+
+- Vite builds the dashboard from `frontend/` into static assets.
+- `/api/*` is rewritten to a Python Vercel Function at `api/index.py`, which imports the Flask app from `backend/`.
+- The browser uses same-origin `/api` calls in production, so the Gemini key stays server-side.
+- Security headers are enforced at the Vercel edge and again by Flask API responses.
+
+Required Vercel environment variables:
+
+```text
+GEMINI_API_KEY=<server-side Gemini key>
+GEMINI_MODEL=gemini-2.5-flash
+FLASK_ENV=production
+ALLOWED_ORIGINS=https://<your-vercel-domain>
+RATE_LIMIT_DEFAULT=100 per minute
+RATE_LIMIT_CLASSIFY=30 per minute
+RATE_LIMIT_STORAGE_URI=<redis storage URI for production rate limiting>
+```
+
+For PRD-aligned production rate limiting, use a managed Redis-compatible store such as Upstash Redis via Vercel Marketplace and set `RATE_LIMIT_STORAGE_URI` from that integration. Do not put secrets in the repo or frontend environment variables.
+
 ## API
 
 ### `GET /api/health`

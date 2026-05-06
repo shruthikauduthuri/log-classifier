@@ -1,4 +1,4 @@
-import { FileText, Loader2, ShieldCheck, UploadCloud } from "lucide-react";
+import { FileText, Loader2, UploadCloud } from "lucide-react";
 import { useId, useState } from "react";
 
 import { MAX_CLIENT_FILE_BYTES, SOURCE_OPTIONS } from "../utils/constants.js";
@@ -62,12 +62,7 @@ export default function UploadPanel({ onSubmit, isLoading, progress, quota }) {
     <section className="rounded-lg border border-border bg-panel p-5 shadow-soft">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-success">Gemini guarded</p>
           <h1 className="mt-1 text-2xl font-semibold text-text">Log Noise Classifier</h1>
-        </div>
-        <div className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-2 text-sm text-muted">
-          <ShieldCheck aria-hidden="true" size={16} />
-          <span>Server-side key only</span>
         </div>
       </div>
 

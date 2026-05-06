@@ -1,4 +1,4 @@
-import { Download, FileDown, Shield, Waves } from "lucide-react";
+import { Download, FileDown, ShieldCheck } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import ClassificationTable from "../components/ClassificationTable.jsx";
@@ -47,12 +47,12 @@ export default function Dashboard() {
       <header className="border-b border-border bg-panel/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand text-white">
-              <Shield aria-hidden="true" size={22} />
-            </span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-2 text-sm text-muted">
+              <ShieldCheck aria-hidden="true" size={16} />
+            </div>
             <div>
               <p className="text-sm font-semibold text-text">Log Noise Classifier</p>
-              <p className="text-xs text-muted">SIEM routing powered by gemini-2.5-pro</p>
+              <p className="text-xs text-muted">SIEM routing</p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -86,16 +86,6 @@ export default function Dashboard() {
             progress={progress}
             quota={quota}
           />
-          <div className="rounded-lg border border-border bg-panel p-4">
-            <div className="flex items-center gap-2 text-sm font-semibold text-text">
-              <Waves aria-hidden="true" size={16} className="text-success" />
-              Streaming progress
-            </div>
-            <p className="mt-2 text-sm leading-6 text-muted">
-              Results arrive one Gemini batch at a time. Provider errors stay sanitized and the API key
-              never leaves the backend.
-            </p>
-          </div>
         </aside>
 
         <section className="space-y-6">
