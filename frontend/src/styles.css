@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-brand: #1a3c5e;
+  --color-surface: #f5f7f9;
+  --color-panel: #ffffff;
+  --color-text: #17212b;
+  --color-muted: #66727f;
+  --color-border: #dbe2e8;
+  --color-track: #e8edf2;
+  --color-high: #e24b4a;
+  --color-medium: #ef9f27;
+  --color-low: #b4b2a9;
+  --color-success: #2e7d32;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-surface: #101820;
+    --color-panel: #162331;
+    --color-text: #edf3f8;
+    --color-muted: #9aabb8;
+    --color-border: #2d3d4b;
+    --color-track: #23313f;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--color-surface);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--color-brand);
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
