@@ -38,7 +38,13 @@ export function useClassify() {
         }
       });
     } catch (err) {
-      setError(err.message || "Classification failed.");
+      const message = err.message || "";
+      const isNetworkError = /failed to fetch|load failed|networkerror/i.test(message);
+      setError(
+        isNetworkError
+          ? "Could not reach the Flask API. Start the backend, then make sure VITE_API_BASE_URL or VITE_PROXY_API_TARGET points to that backend port and ALLOWED_ORIGINS includes this frontend URL."
+          : message || "Classification failed."
+      );
     } finally {
       setIsLoading(false);
     }

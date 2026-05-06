@@ -65,6 +65,20 @@ npm run dev
 
 Open `http://localhost:5173`. The Vite dev server proxies `/api` to `http://localhost:5001`.
 
+If either port is occupied, keep the ports aligned:
+
+```bash
+# backend on 5002
+cd backend
+flask --app wsgi.py run --host 127.0.0.1 --port 5002
+
+# frontend proxying to that backend
+cd frontend
+VITE_PROXY_API_TARGET=http://127.0.0.1:5002 npm run dev
+```
+
+When using `VITE_API_BASE_URL` for direct browser-to-backend calls, add the actual frontend URL to `ALLOWED_ORIGINS` in `backend/.env`.
+
 ## Docker Compose
 
 ```bash

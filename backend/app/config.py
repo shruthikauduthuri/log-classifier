@@ -67,7 +67,12 @@ class AppConfig:
             medium_threshold=_env_float("MEDIUM_THRESHOLD", 0.40),
             allowed_origins=_env_csv(
                 "ALLOWED_ORIGINS",
-                ["http://localhost:5173", "http://127.0.0.1:5173"],
+                [
+                    "http://localhost:5173",
+                    "http://127.0.0.1:5173",
+                    "http://localhost:5174",
+                    "http://127.0.0.1:5174",
+                ],
             ),
             rate_limit_default=os.getenv("RATE_LIMIT_DEFAULT", "100 per minute"),
             rate_limit_classify=os.getenv("RATE_LIMIT_CLASSIFY", "30 per minute"),
