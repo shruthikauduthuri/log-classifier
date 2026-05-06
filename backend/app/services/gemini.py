@@ -8,6 +8,10 @@ class GeminiServiceError(Exception):
     pass
 
 
+class GeminiQuotaError(GeminiServiceError):
+    pass
+
+
 class GeminiClassifier:
     def __init__(self, config):
         self.config = config
@@ -51,16 +55,25 @@ class GeminiClassifier:
                     contents=prompt,
                     config={
                         "response_mime_type": "application/json",
-                        "response_json_schema": schema,
+                        "response_schema": schema,
                     },
                 )
                 return self._parse_response(response, logs, source_hint)
             except Exception as exc:
                 last_error = exc
+                if self._is_quota_error(exc):
+                    raise GeminiQuotaError("Gemini quota exhausted for configured model.") from exc
                 if attempt < self.config.gemini_retry_attempts - 1:
                     time.sleep(min(2**attempt, 8))
 
         raise GeminiServiceError("Gemini classification failed.") from last_error
+
+    def _is_quota_error(self, error):
+        status_code = getattr(error, "status_code", None)
+        if status_code == 429:
+            return True
+        message = str(error).lower()
+        return "resource_exhausted" in message or "quota" in message
 
     def _build_prompt(self, logs, source_hint):
         lines = "\n".join(f"{index}. {log}" for index, log in enumerate(logs))

@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from flask import Blueprint, Response, current_app, jsonify, request, stream_with_context
 
 from app import limiter
-from app.services.gemini import GeminiServiceError
+from app.services.gemini import GeminiQuotaError, GeminiServiceError
 from app.services.router import enrich_result, summarize_results
 from app.utils.errors import ApiError
 from app.utils.validators import (
@@ -62,6 +62,12 @@ def classify():
                     payload.medium_threshold,
                 )
             )
+    except GeminiQuotaError as exc:
+        raise ApiError(
+            "Gemini quota is exhausted for the configured model. Use gemini-2.5-flash for free-tier testing or enable quota for gemini-2.5-pro.",
+            429,
+            "gemini_quota_exhausted",
+        ) from exc
     except GeminiServiceError as exc:
         raise ApiError("Gemini classification is unavailable. Try again later.", 503, "gemini_unavailable") from exc
 
@@ -94,10 +100,20 @@ def classify_stream():
                     payload.high_threshold,
                     payload.medium_threshold,
                 )
+            except GeminiQuotaError:
+                yield emit(
+                    {
+                        "type": "error",
+                        "code": "gemini_quota_exhausted",
+                        "message": "Gemini quota is exhausted for the configured model. Use gemini-2.5-flash for free-tier testing or enable quota for gemini-2.5-pro.",
+                    }
+                )
+                return
             except GeminiServiceError:
                 yield emit(
                     {
                         "type": "error",
+                        "code": "gemini_unavailable",
                         "message": "Gemini classification is unavailable. Try again later.",
                     }
                 )

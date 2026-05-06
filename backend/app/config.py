@@ -2,7 +2,12 @@ import os
 from dataclasses import dataclass
 
 
-ALLOWED_GEMINI_MODEL = "gemini-2.5-pro"
+DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
+ALLOWED_GEMINI_MODELS = {
+    "gemini-2.5-pro",
+    "gemini-2.5-flash",
+    "gemini-2.5-flash-lite",
+}
 
 
 def _env_int(name, default):
@@ -50,9 +55,10 @@ class AppConfig:
 
     @classmethod
     def from_env(cls):
-        model = os.getenv("GEMINI_MODEL", ALLOWED_GEMINI_MODEL).strip()
-        if model != ALLOWED_GEMINI_MODEL:
-            raise ValueError(f"Only {ALLOWED_GEMINI_MODEL} is supported.")
+        model = os.getenv("GEMINI_MODEL", DEFAULT_GEMINI_MODEL).strip()
+        if model not in ALLOWED_GEMINI_MODELS:
+            allowed = ", ".join(sorted(ALLOWED_GEMINI_MODELS))
+            raise ValueError(f"Unsupported Gemini model. Use one of: {allowed}.")
 
         return cls(
             gemini_api_key=os.getenv("GEMINI_API_KEY", "").strip(),

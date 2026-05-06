@@ -4,7 +4,7 @@ AI-powered log relevance scoring and SIEM routing dashboard. The app uses a Flas
 
 ## What It Does
 
-- Scores log lines with `gemini-2.5-pro`.
+- Scores log lines with a configurable Gemini 2.5 model.
 - Routes events to `SIEM`, `DataLake`, or `ColdStorage` using configurable thresholds.
 - Shows KPI cards, routing bars, source volume charts, savings estimates, and a sortable classification table.
 - Exports complete results as CSV and a one-page PDF summary.
@@ -39,7 +39,7 @@ GEMINI_MAX_CALLS_PER_REQUEST=5
 MAX_FILE_SIZE_MB=5
 ```
 
-For paid tiers or controlled demos, raise these values in the backend environment. Keep `GEMINI_MODEL=gemini-2.5-pro`.
+For free-tier local testing, use `GEMINI_MODEL=gemini-2.5-flash`. Use `gemini-2.5-pro` only when your API project has Pro quota enabled.
 
 ## Local Setup
 
